@@ -5,30 +5,44 @@ using UnityEngine;
 public class Grass : MonoBehaviour
 {
     public List<Collider2D> BlocksAround = new List<Collider2D>();
+    
     public int SpriteNumber = 0;
-    public Sprite[] SpriteID;
-    public SpriteRenderer spriteRenderer;
+    
+    public SpriteRenderer SpriteRenderer;
 
-    public bool block1 = false;
-    public bool block2 = false;
-    public bool block3 = false;
-    public bool block4 = false;
-    public bool block6 = false;
-    public bool block7 = false;
-    public bool block8 = false;
-    public bool block9 = false;
+    public Vector2[] Blockpos = new Vector2[7];
+
+    public Sprite[] SpriteID = new Sprite[46];
+
+    public bool[] BlockCorrect = new bool[7];
+
+    public Vector2 MainBlockPos;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        Blockpos[0] = new Vector2(-1, 1);
+        Blockpos[1] = new Vector2(0, 1);
+        Blockpos[2] = new Vector2(1, 1);
+        Blockpos[3] = new Vector2(-1, 0);
+        Blockpos[4] = new Vector2(1, 0);
+        Blockpos[5] = new Vector2(-1, -1);
+        Blockpos[6] = new Vector2(0, -1);
+        Blockpos[7] = new Vector2(1, -1);
 
+        MainBlockPos = gameObject.transform.position;
+
+
+        SpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
         CheckAround();
+        MainBlockPos = gameObject.transform.position;
     }
 
     void OnTriggerEnter2D(Collider2D Block)
@@ -37,40 +51,52 @@ public class Grass : MonoBehaviour
         {
             BlocksAround.Add(Block);
         }
+
+        ClearBoolBlocks();
     }
 
     private void OnTriggerExit2D(Collider2D Block)
     {
-
         if (Block.tag == "Grass")
         {
             BlocksAround.Remove(Block);
         }
+
+        ClearBoolBlocks();
     }
 
     private void CheckAround()
     {
-        if (BlocksAround.Count > 0)
-        {
-            Vector2 posThis = this.gameObject.transform.position;
-            Vector2 posAround1 = new Vector2(BlocksAround[0].gameObject.transform.position.x, BlocksAround[0].gameObject.transform.position.y);
-            Vector2 posAround2 = new Vector2(BlocksAround[1].gameObject.transform.position.x, BlocksAround[1].gameObject.transform.position.y);
-            Vector2 posAround3 = new Vector2(BlocksAround[2].gameObject.transform.position.x, BlocksAround[2].gameObject.transform.position.y);
-            Vector2 posAround4 = new Vector2(BlocksAround[3].gameObject.transform.position.x, BlocksAround[3].gameObject.transform.position.y);
-            Vector2 posAround5 = new Vector2(BlocksAround[4].gameObject.transform.position.x, BlocksAround[4].gameObject.transform.position.y);
-            Vector2 posAround6 = new Vector2(BlocksAround[5].gameObject.transform.position.x, BlocksAround[5].gameObject.transform.position.y);
-            Vector2 posAround7 = new Vector2(BlocksAround[6].gameObject.transform.position.x, BlocksAround[6].gameObject.transform.position.y);
-            Vector2 posAround8 = new Vector2(BlocksAround[7].gameObject.transform.position.x, BlocksAround[7].gameObject.transform.position.y);
-        }
-
-
-
         if (BlocksAround.Count == 0)
         {
             SpriteNumber = 0;
         }
+        else if (BlocksAround.Count > 0)
+        {
+            for (int i = 0; i < BlocksAround.Count; i++)
+            {
+                Vector2 BlockAroundPos = BlocksAround[i].gameObject.transform.position;
 
-        spriteRenderer.sprite = SpriteID[SpriteNumber];
+                for (int j = 0; j < 8; j++)
+                {
+                    if (BlockAroundPos - MainBlockPos == Blockpos[j])
+                    {
+                        BlockCorrect[j] = true;
+                    }
+                }
+            }
+        }
+        else return;
+
+        //SpriteRenderer.sprite = SpriteID[SpriteNumber];
+    }
+
+    private void ClearBoolBlocks()
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            BlockCorrect[i] = false;
+        }
     }
 }
 
@@ -80,7 +106,7 @@ public class Grass : MonoBehaviour
     ≈сли два плюса - добавлен в скрипт
 
     010 000 000 000     |
-    0*0 1*0 0*0 0*1     | если одиночный блок р€дом ++
+    0*0 1*0 0*0 0*1     | если одиночный блок р€дом +
     000 000 010 000     |
                         
     010 000             |
