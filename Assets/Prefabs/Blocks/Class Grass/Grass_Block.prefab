@@ -45,7 +45,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.5, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -154,8 +154,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 660d0c749e857364da65e7dd9fd6c0d7, type: 3}
-  m_Color: {r: 0.41176474, g: 0.41176474, b: 0.41176474, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 4c5dce4a86e9f264aa3d0e0b6d1771b5, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -178,10 +178,10 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.5, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -204,6 +204,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BlocksAround: []
+  SpriteNumber: 0
+  SpriteID:
+  - {fileID: 21300000, guid: 4c5dce4a86e9f264aa3d0e0b6d1771b5, type: 3}
+  - {fileID: 21300000, guid: b51fe96addefaf643bc393ff43f2379f, type: 3}
+  - {fileID: 21300000, guid: 5fb83df064e07e1439d28feb72cdd72b, type: 3}
+  - {fileID: 21300000, guid: 6d217fe711c820c4c9201918c783956b, type: 3}
+  - {fileID: 21300000, guid: 23d30c42798e1fb4ab4bcd3292b38974, type: 3}
+  - {fileID: 21300000, guid: c4fc95014db14a549ba4b5555852acc9, type: 3}
+  - {fileID: 21300000, guid: 07bc70ae351f372479754aaa95b5b41a, type: 3}
+  - {fileID: 21300000, guid: 7b9f481d1ca5dae45a03a2261ce6b50a, type: 3}
+  spriteRenderer: {fileID: 0}
+  block1: 0
+  block2: 0
+  block3: 0
+  block4: 0
+  block6: 0
+  block7: 0
+  block8: 0
+  block9: 0
 --- !u!50 &7813076327429933178
 Rigidbody2D:
   serializedVersion: 4
