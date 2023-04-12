@@ -5,9 +5,9 @@ using UnityEngine;
 public class Grass : MonoBehaviour
 {
     public List<Collider2D> BlocksAround = new List<Collider2D>();
-    
-    public int SpriteNumber = 0;
-    
+
+    public int SpriteNumber;
+
     public SpriteRenderer SpriteRenderer;
 
     public Vector2[] Blockpos = new Vector2[7];
@@ -18,9 +18,6 @@ public class Grass : MonoBehaviour
 
     public Vector2 MainBlockPos;
 
-
-
-    // Start is called before the first frame update
     void Start()
     {
         Blockpos[0] = new Vector2(-1, 1);
@@ -36,15 +33,27 @@ public class Grass : MonoBehaviour
 
 
         SpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-    }
 
-    // Update is called once per frame
+        ClearBoolBlocks();
+        CheckAround();
+        CheckSpriteID();
+    }
     void LateUpdate()
     {
-        CheckAround();
-        MainBlockPos = gameObject.transform.position;
+        
     }
+    void Update()
+    {
 
+    }
+    private void FixedUpdate()
+    {
+        MainBlockPos = gameObject.transform.position;
+        ClearBoolBlocks();
+        CheckAround();
+        CheckSpriteID();
+        SpriteRenderer.sprite = SpriteID[SpriteNumber];
+    }
     void OnTriggerEnter2D(Collider2D Block)
     {
         if (Block.tag == "Grass")
@@ -52,9 +61,12 @@ public class Grass : MonoBehaviour
             BlocksAround.Add(Block);
         }
 
-        ClearBoolBlocks();
-    }
+        MainBlockPos = gameObject.transform.position;
 
+        ClearBoolBlocks();
+        CheckAround();
+        CheckSpriteID();
+    }
     private void OnTriggerExit2D(Collider2D Block)
     {
         if (Block.tag == "Grass")
@@ -62,16 +74,15 @@ public class Grass : MonoBehaviour
             BlocksAround.Remove(Block);
         }
 
+        MainBlockPos = gameObject.transform.position;
+        
         ClearBoolBlocks();
+        CheckAround();
+        CheckSpriteID();
     }
-
     private void CheckAround()
     {
-        if (BlocksAround.Count == 0)
-        {
-            SpriteNumber = 0;
-        }
-        else if (BlocksAround.Count > 0)
+        if (BlocksAround.Count > 0)
         {
             for (int i = 0; i < BlocksAround.Count; i++)
             {
@@ -86,11 +97,229 @@ public class Grass : MonoBehaviour
                 }
             }
         }
-        else return;
-
-        //SpriteRenderer.sprite = SpriteID[SpriteNumber];
     }
-
+    private void CheckSpriteID()
+    {
+        // 8 blocks
+        if((BlockCorrect[0] == true) && (BlockCorrect[1] == true) && (BlockCorrect[2] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[5] == true) && (BlockCorrect[6] == true) && (BlockCorrect[7] == true))
+        {
+            SpriteNumber = 40;
+            return;
+        }
+        // 7 blocks
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[2] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[5] == true) && (BlockCorrect[6] == true) && (BlockCorrect[7] == true)) // (BlockCorrect[0] == false))
+        {
+            SpriteNumber = 36;
+            return;
+        }
+        else if ((BlockCorrect[0] == true) && (BlockCorrect[1] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[5] == true) && (BlockCorrect[6] == true) && (BlockCorrect[7] == true)) // (BlockCorrect[2] == false))
+        {
+            SpriteNumber = 37;
+            return;
+        }
+        else if ((BlockCorrect[0] == true) && (BlockCorrect[1] == true) && (BlockCorrect[2] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[6] == true) && (BlockCorrect[7] == true)) // (BlockCorrect[5] == false))
+        {
+            SpriteNumber = 38;
+            return;
+        }
+        else if ((BlockCorrect[0] == true) && (BlockCorrect[1] == true) && (BlockCorrect[2] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[5] == true) && (BlockCorrect[6] == true)) // (BlockCorrect[7] == false))
+        {
+            SpriteNumber = 39;
+            return;
+        }
+        // 6 blocks
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[2] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[5] == true) && (BlockCorrect[6] == true)) //|| (BlockCorrect[0] == false) || (BlockCorrect[7] == false))
+        {
+            SpriteNumber = 30;
+            return;
+        }
+        else if ((BlockCorrect[0] == true) && (BlockCorrect[1] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[6] == true) && (BlockCorrect[7] == true)) //|| (BlockCorrect[2] == false) || (BlockCorrect[5] == false))
+        {
+            SpriteNumber = 31;
+            return;
+        }
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[5] == true) && (BlockCorrect[6] == true) && (BlockCorrect[7] == true)) //|| (BlockCorrect[0] == false) || (BlockCorrect[2] == false))
+        {
+            SpriteNumber = 32;
+            return;
+        }
+        else if ((BlockCorrect[0] == true) && (BlockCorrect[1] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[5] == true) && (BlockCorrect[6] == true)) //|| (BlockCorrect[2] == false) || (BlockCorrect[7] == false))
+        {
+            SpriteNumber = 33;
+            return;
+        }
+        else if ((BlockCorrect[0] == true) && (BlockCorrect[1] == true) && (BlockCorrect[2] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[6] == true)) //|| (BlockCorrect[5] == false) || (BlockCorrect[7] == false))
+        {
+            SpriteNumber = 34;
+            return;
+        }
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[2] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[6] == true) && (BlockCorrect[7] == true)) //|| (BlockCorrect[0] == false) || (BlockCorrect[5] == false))
+        {
+            SpriteNumber = 35;
+            return;
+        }
+        // 5 blocks
+        else if ((BlockCorrect[0] == true) && (BlockCorrect[1] == true) && (BlockCorrect[2] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true)) //|| (BlockCorrect[5] == false) || (BlockCorrect[6] == false) || (BlockCorrect[7] == false)) 
+        {
+            SpriteNumber = 22;
+            return;
+        }
+        else if ((BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[5] == true) && (BlockCorrect[6] == true) && (BlockCorrect[7] == true)) //|| (BlockCorrect[0] == false) || (BlockCorrect[1] == false) || (BlockCorrect[2] == false)) 
+        {
+            SpriteNumber = 23;
+            return;
+        }
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[2] == true) && (BlockCorrect[4] == true) && (BlockCorrect[6] == true) && (BlockCorrect[7] == true)) //|| (BlockCorrect[3] == false) || (BlockCorrect[0] == false) || (BlockCorrect[5] == false)) 
+        {
+            SpriteNumber = 24;
+            return;
+        }
+        else if ((BlockCorrect[0] == true) && (BlockCorrect[1] == true) && (BlockCorrect[3] == true) && (BlockCorrect[5] == true) && (BlockCorrect[6] == true)) //|| (BlockCorrect[2] == false) || (BlockCorrect[4] == false) || (BlockCorrect[7] == false))
+        {
+            SpriteNumber = 25;
+            return;
+        }
+        else if ((BlockCorrect[0] == true) && (BlockCorrect[1] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[6] == true)) //|| (BlockCorrect[2] == false) || (BlockCorrect[5] == false) || (BlockCorrect[7] == false)) 
+        {
+            SpriteNumber = 26;
+            return;
+        }
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[2] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[6] == true)) //|| (BlockCorrect[0] == false) || (BlockCorrect[5] == false) || (BlockCorrect[7] == false))
+        {
+            SpriteNumber = 27;
+            return;
+        }
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[5] == true) && (BlockCorrect[6] == true)) //|| (BlockCorrect[0] == false) || (BlockCorrect[2] == false) || (BlockCorrect[7] == false)) 
+        {
+            SpriteNumber = 28;
+            return;
+        }
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[6] == true) && (BlockCorrect[7] == true)) //|| (BlockCorrect[0] == false) || (BlockCorrect[2] == false) || (BlockCorrect[5] == false))
+        {
+            SpriteNumber = 29;
+            return;
+        }
+        // 4 blocks
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[6] == true)) //|| (BlockCorrect[0] == false) || (BlockCorrect[2] == false) || (BlockCorrect[5] == false) || (BlockCorrect[7] == false))
+        {                                                                                                                          
+            SpriteNumber = 15;                                                                                                     
+            return;                                                                                                                
+        }                                                                                                                          
+        else if ((BlockCorrect[0] == true) && (BlockCorrect[1] == true) && (BlockCorrect[3] == true) && (BlockCorrect[6] == true)) //|| (BlockCorrect[2] == false) || (BlockCorrect[4] == false) || (BlockCorrect[5] == false) || (BlockCorrect[7] == false)) 
+        {                                                                                                                          
+            SpriteNumber = 16;                                                                                                     
+            return;                                                                                                                
+        }                                                                                                                          
+        else if ((BlockCorrect[0] == true) && (BlockCorrect[1] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true)) //|| (BlockCorrect[2] == false) || (BlockCorrect[5] == false) || (BlockCorrect[6] == false) || (BlockCorrect[7] == false))
+        {                                                                                                                          
+            SpriteNumber = 17;                                                                                                     
+            return;                                                                                                                
+        }                                                                                                                          
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[2] == true) && (BlockCorrect[4] == true) && (BlockCorrect[6] == true)) //|| (BlockCorrect[0] == false) || (BlockCorrect[3] == false) || (BlockCorrect[5] == false) || (BlockCorrect[7] == false))
+        {                                                                                                                         
+            SpriteNumber = 18;                                                                                                    
+            return;                                                                                                               
+        }                                                                                                                          
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[2] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true)) //|| (BlockCorrect[0] == false) || (BlockCorrect[5] == false) || (BlockCorrect[6] == false) || (BlockCorrect[7] == false))
+        {                                                                                                                          
+            SpriteNumber = 19;                                                                                                     
+            return;                                                                                                                
+        }                                                                                                                          
+        else if ((BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[6] == true) && (BlockCorrect[7] == true)) //|| (BlockCorrect[0] == false) || (BlockCorrect[1] == false) || (BlockCorrect[2] == false) || (BlockCorrect[5] == false))
+        {                                                                                                                          
+            SpriteNumber = 20;                                                                                                     
+            return;                                                                                                                
+        }                                                                                                                          
+        else if ((BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[5] == true) && (BlockCorrect[6] == true)) //|| (BlockCorrect[0] == false) || (BlockCorrect[1] == false) || (BlockCorrect[2] == false) || (BlockCorrect[7] == false))
+        {                                                                                                                          
+            SpriteNumber = 21;                                                                                                     
+            return;                                                                                                                
+        }                                                                                                                                                                                                                                                  //
+        // 3 blocks
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[3] == true) && (BlockCorrect[4] == true)) //&& (BlockCorrect[0] == false) && (BlockCorrect[2] == false) && (BlockCorrect[5] == false) && (BlockCorrect[6] == false) && (BlockCorrect[7] == false)) 
+        {                                                                                              
+            SpriteNumber = 11;                                                                         
+            return;                                                                                    
+        }                                                                                             
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[4] == true) && (BlockCorrect[6] == true)) //&& (BlockCorrect[0] == false) && (BlockCorrect[2] == false) && (BlockCorrect[3] == false) && (BlockCorrect[5] == false) && (BlockCorrect[7] == false)) 
+        {                                                                                              
+            SpriteNumber = 12;                                                                         
+            return;                                                                                    
+        }                                                                                              
+        else if ((BlockCorrect[3] == true) && (BlockCorrect[4] == true) && (BlockCorrect[6] == true)) //&& (BlockCorrect[0] == false) && (BlockCorrect[1] == false) && (BlockCorrect[2] == false) && (BlockCorrect[5] == false) && (BlockCorrect[7] == false)) 
+        {                                                                                              
+            SpriteNumber = 13;                                                                         
+            return;                                                                                    
+        }                                                                                              
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[3] == true) && (BlockCorrect[6] == true)) //&& (BlockCorrect[0] == false) && (BlockCorrect[2] == false) && (BlockCorrect[4] == false) && (BlockCorrect[5] == false) && (BlockCorrect[7] == false))
+        {                                                                                             
+            SpriteNumber = 14;                                                                        
+            return;                                                                                   
+        }                                                                                             
+        // 2 blocks
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[6] == true)) // || (BlockCorrect[0] == false) || (BlockCorrect[2] == false) || (BlockCorrect[3] == false) || (BlockCorrect[4] == false) || (BlockCorrect[5] == false) || (BlockCorrect[7] == false))
+        {                                                               
+            SpriteNumber = 5;                                           
+            return;                                                     
+        }                                                               
+        else if ((BlockCorrect[3] == true) && (BlockCorrect[4] == true)) // || (BlockCorrect[0] == false) || (BlockCorrect[1] == false) || (BlockCorrect[2] == false) || (BlockCorrect[5] == false) || (BlockCorrect[6] == false) || (BlockCorrect[7] == false))
+        {                                                               
+            SpriteNumber = 6;                                           
+            return;                                                     
+        }                                                               
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[3] == true)) // || (BlockCorrect[0] == false) || (BlockCorrect[2] == false) || (BlockCorrect[4] == false) || (BlockCorrect[5] == false) || (BlockCorrect[6] == false) || (BlockCorrect[7] == false))
+        {                                                              
+            SpriteNumber = 7;                                          
+            return;                                                    
+        }                                                              
+        else if ((BlockCorrect[1] == true) && (BlockCorrect[4] == true)) // || (BlockCorrect[0] == false) || (BlockCorrect[2] == false) || (BlockCorrect[3] == false) || (BlockCorrect[5] == false) || (BlockCorrect[6] == false) || (BlockCorrect[7] == false))
+        {                                                             
+            SpriteNumber = 8;                                         
+            return;                                                   
+        }                                                             
+        else if ((BlockCorrect[3] == true) && (BlockCorrect[6] == true)) // || (BlockCorrect[0] == false) || (BlockCorrect[1] == false) || (BlockCorrect[2] == false) || (BlockCorrect[4] == false) || (BlockCorrect[5] == false) || (BlockCorrect[7] == false))
+        {                                                             
+            SpriteNumber = 9;                                         
+            return;                                                   
+        }                                                             
+        else if ((BlockCorrect[4] == true) && (BlockCorrect[6] == true)) // || (BlockCorrect[0] == false) || (BlockCorrect[1] == false) || (BlockCorrect[2] == false) || (BlockCorrect[3] == false) || (BlockCorrect[5] == false) || (BlockCorrect[7] == false))
+        {
+            SpriteNumber = 10;
+            return;
+        }
+        // 1 blocs
+        else if (BlockCorrect[1] == true)  //|| (BlockCorrect[0] == false) || (BlockCorrect[2] == false) || (BlockCorrect[3] == false) || (BlockCorrect[4] == false) || (BlockCorrect[5] == false) || (BlockCorrect[6] == false) || (BlockCorrect[7] == false))
+        {                                                                                                                                                                                                                                             
+            SpriteNumber = 1;                                                                                                                                                                                                                         
+            return;                                                                                                                                                                                                                                   
+        }                                                                                                                                                                                                                                             
+        else if (BlockCorrect[3] == true)  //|| (BlockCorrect[0] == false) || (BlockCorrect[1] == false) || (BlockCorrect[2] == false) || (BlockCorrect[4] == false) || (BlockCorrect[5] == false) || (BlockCorrect[6] == false) || (BlockCorrect[7] == false))
+        {                                                                                                                                                                                                                                              
+            SpriteNumber = 2;                                                                                                                                                                                                                          
+            return;                                                                                                                                                                                                                                    
+        }                                                                                                                                                                                                                                              
+        else if (BlockCorrect[4] == true)  //|| (BlockCorrect[0] == false) || (BlockCorrect[1] == false) || (BlockCorrect[2] == false) || (BlockCorrect[3] == false) || (BlockCorrect[5] == false) || (BlockCorrect[6] == false) || (BlockCorrect[7] == false))
+        {                                                                                                                                                                                                                                               
+            SpriteNumber = 3;                                                                                                                                                                                                                           
+            return;                                                                                                                                                                                                                                     
+        }                                                                                                                                                                                                                                               
+        else if (BlockCorrect[6] == true)  //|| (BlockCorrect[0] == false) || (BlockCorrect[1] == false) || (BlockCorrect[2] == false) || (BlockCorrect[3] == false) || (BlockCorrect[4] == false) || (BlockCorrect[5] == false) || (BlockCorrect[7] == false))
+        {
+            SpriteNumber = 4;
+            return;
+        }
+        else
+        {
+            if(BlocksAround.Count > 0)
+            {
+                SpriteNumber = 0;
+                Debug.LogError("No logic " + gameObject.name);
+                return;
+            }
+            else
+                SpriteNumber = 0;
+        }
+    }
     private void ClearBoolBlocks()
     {
         for (int i = 0; i < 8; i++)
@@ -99,63 +328,3 @@ public class Grass : MonoBehaviour
         }
     }
 }
-
-    /*
-     
-    Если один плюс - спрайт есть
-    Если два плюса - добавлен в скрипт
-
-    010 000 000 000     |
-    0*0 1*0 0*0 0*1     | если одиночный блок рядом +
-    000 000 010 000     |
-                        
-    010 000             |
-    0*0 1*1             | если два блока и они напротив друг друга +
-    010 000             |
-                        
-    010 010 000 000     |
-    1*0 0*1 0*1 1*0     | если два блока и они не напротив друг друга
-    000 000 010 010     |
-                        
-    010 010 000 010     |
-    1*1 0*1 1*1 1*0     | если три блока без угла.
-    000 010 010 010     |
-                        
-    110 011 000 000     |
-    1*0 0*1 0*1 1*0     | если три блока с углом
-    000 000 011 110     |
-                        
-    110 110 011 011     |
-    1*0 1*1 0*1 1*1     |
-    010 000 010 000     |
-                        | если четыре блока с углом (если три блока с углом + 1 блок)
-    010 000 010 000     |
-    0*1 1*1 1*0 1*1     |
-    011 011 110 110     |
-                        
-    010                 |
-    1*1                 | если 4 блока без угла + 
-    010                 |
-                        |
-    110 011 010 010     |
-    1*1 1*1 1*1 1*1     | если 5 блоков (4 блока без угла + 1 блок)
-    010 010 011 110     |
-                        
-    111 110 000 011     |
-    1*1 1*0 1*1 0*1     | если 5 блоков с 2 углом
-    000 110 111 011     |
-                        
-    111 110 010 011     |
-    1*1 1*1 1*1 1*1     | если 6 блоков без 2 угла
-    010 110 111 011     |
-                        
-    111 110 011 111     |
-    1*1 1*1 1*1 1*1     | если 7 блоков без 1 угла
-    110 111 111 011     |
-
-    111                 |
-    1*1                 | если 8 блоков                      
-    111                 |
-
-    45 вариантов спрайта без поворота.
-     */
