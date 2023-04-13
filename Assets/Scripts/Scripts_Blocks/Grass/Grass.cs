@@ -18,6 +18,8 @@ public class Grass : MonoBehaviour
 
     public Vector2 MainBlockPos;
 
+    public bool IsActive = false;
+
     void Start()
     {
         Blockpos[0] = new Vector2(-1, 1);
@@ -48,11 +50,10 @@ public class Grass : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        MainBlockPos = gameObject.transform.position;
-        ClearBoolBlocks();
-        CheckAround();
-        CheckSpriteID();
-        SpriteRenderer.sprite = SpriteID[SpriteNumber];
+        //MainBlockPos = gameObject.transform.position;
+        //ClearBoolBlocks();
+        //CheckAround();
+        //CheckSpriteID();
     }
     void OnTriggerEnter2D(Collider2D Block)
     {
@@ -310,13 +311,6 @@ public class Grass : MonoBehaviour
         }
         else
         {
-            if(BlocksAround.Count > 0)
-            {
-                SpriteNumber = 0;
-                Debug.LogError("No logic " + gameObject.name);
-                return;
-            }
-            else
                 SpriteNumber = 0;
         }
     }
@@ -326,5 +320,15 @@ public class Grass : MonoBehaviour
         {
             BlockCorrect[i] = false;
         }
+    }
+
+    private void OnBecameInvisible()
+    {
+        IsActive = false;
+    }
+
+    private void OnBecameVisible()
+    {
+        IsActive = true;
     }
 }
